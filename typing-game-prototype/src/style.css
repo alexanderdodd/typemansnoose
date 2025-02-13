@@ -3,3 +3,7 @@
     /*background-color: forestgreen;*/
 color: forestgreen;
 }
+
+.failure{
+    color: red;
+}
