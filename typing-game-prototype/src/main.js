@@ -13,6 +13,7 @@ const lettersToDisplay = [
 let count = 0;
 export function initialize() {
   document.getElementById("textInput").addEventListener("keydown", (event) => {
+    console.log('event', event);
     let val = parseWord(event.code);
 
     if (val !== null) {
