@@ -1,45 +1,29 @@
 import "./style.css";
-import { parseWord } from "./parser";
+import { Checker } from "./checker";
 
-const wordsToDisplay =['cheese', 'is', 'a','kind','of','meat'];
-const lettersToDisplay = [
-    ['c','h','e','e','s','e'],
-    ['i', 's']
-]
-
-
-
-
+const wordsToDisplay = "cheese is a kind of meat";
+const checker = new Checker(wordsToDisplay);
 let count = 0;
 export function initialize() {
   document.getElementById("textInput").addEventListener("keydown", (event) => {
-    console.log('event', event);
-    let val = parseWord(event.code);
+    console.log("event", event);
+    const result = checker.check(event.key);
 
-    if (val !== null) {
-      document.getElementById("textOutput").innerHTML =
-        document.getElementById("textOutput").innerHTML + " " + val;
-    }
-    if(val === wordsToDisplay[count]) {
-      document.getElementById("word-" + count).classList.add("success");
-      count++;
-     val = null;
-    }
-    if(val !== wordsToDisplay[count] && val != null){
-      document.getElementById("word-"+(count)).classList.add("failure");
-      count++;
+    if (result === true) {
+      document.getElementById("letter-" + count).classList.add("success");
+    } else {
+      document.getElementById("letter-" + count).classList.add("failure");
     }
 
+    count++;
   });
-let htmlWordsToDisplay = "";
-let htmlLettersToDisplay = [];
 
-for(let i = 0; i < wordsToDisplay.length; i++){
-  htmlWordsToDisplay+=`<span id='word-${i}'>${wordsToDisplay[i]}</span> `;
-}
+  let htmlWordsToDisplay = "";
 
+  for (let i = 0; i < wordsToDisplay.length; i++) {
+    htmlWordsToDisplay += `<span id='letter-${i}'>${wordsToDisplay[i]}</span>`;
+  }
   document.getElementById("wordsDisplay").innerHTML = htmlWordsToDisplay;
 }
-
 
 initialize();
