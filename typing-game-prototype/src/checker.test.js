@@ -6,6 +6,14 @@ const phrase = "cheese is";
 describe("checker", () => {
   [
     {
+      input: "{Backspace}",
+      results: [null],
+    },
+    {
+      input: "{Backspace}c",
+      results: [null, false],
+    },
+    {
       input: "chx",
       results: [true, true, false],
     },
@@ -27,7 +35,7 @@ describe("checker", () => {
     },
     {
       input: "cheese  {Backspace}is",
-      results: [true, true, true, true, true, true, true, false, true, true, true],
+      results: [true, true, true, true, true, true, true, false, null, true, true],
     },
   ].forEach((testCase) => {
     const checker = new Checker(phrase);

@@ -10,10 +10,14 @@ export class Checker {
   check(char) {
     if (char === BACKSPACE_KEY) {
       this.#currentIndex--;
-      return true;
+      return null;
     }
     const result = char === this.#sentenceToCheck.at(this.#currentIndex);
     this.#currentIndex++;
     return result;
+  }
+
+  getCurrentIndex() {
+    return this.#currentIndex;
   }
 }
