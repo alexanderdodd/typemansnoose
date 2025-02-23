@@ -1,4 +1,7 @@
 import "./style.css";
+import { Checker } from "./checker";
+import { Timer } from "./timer";
+import { calculateWPM } from "./wpm-calculator";
 import {Checker} from "./checker";
 import {SentenceManager} from "./sentenceManager.js";
 
@@ -26,7 +29,26 @@ const newSentence = function () {
 }
 
 
+const wordsToDisplay = "cheese is a kind of meat";
+const checker = new Checker(wordsToDisplay);
+const timer = new Timer();
+const countdown = 5;
+let chars = 0;
 export function initialize() {
+  document.getElementById("textInput").addEventListener("keydown", (event) => {
+    chars++;
+    if(!timer.isStarted()) {
+      timer.startTimer(countdown, (count) => {
+        document.getElementById("countdown").innerHTML = count;
+
+        if(count === 0) {
+          document.getElementById("countdown").innerHTML = "";
+          document.getElementById("wpm").innerHTML = "WPM: " + calculateWPM(countdown, chars);
+        }
+      });
+    }
+    const count = checker.getCurrentIndex();
+    const result = checker.check(event.key);
 
     document.getElementById("textInput").addEventListener("keydown", (event) => {
         const count = checker.getCurrentIndex();
