@@ -7,3 +7,8 @@ color: forestgreen;
 .failure{
     color: red;
 }
+
+.default{
+
+    color: black;
+}

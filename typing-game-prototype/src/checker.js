@@ -1,23 +1,31 @@
 export const BACKSPACE_KEY = "Backspace";
 
-export class Checker {
-  #sentenceToCheck = "";
-  #currentIndex = 0;
-  constructor(sentenceToCheck) {
-    this.#sentenceToCheck = sentenceToCheck;
-  }
 
-  check(char) {
-    if (char === BACKSPACE_KEY) {
-      this.#currentIndex--;
-      return null;
+  export class Checker {
+    #sentenceToCheck = "";
+    #currentIndex = 0;
+
+
+    constructor(sentenceToCheck) {
+      this.#sentenceToCheck = sentenceToCheck;
     }
-    const result = char === this.#sentenceToCheck.at(this.#currentIndex);
-    this.#currentIndex++;
-    return result;
-  }
 
-  getCurrentIndex() {
-    return this.#currentIndex;
-  }
+
+
+    check(char) {
+      if (char === BACKSPACE_KEY) {
+        this.#currentIndex--;
+        return null;
+      }
+      const result = char === this.#sentenceToCheck.at(this.#currentIndex);
+      this.#currentIndex++;
+
+      console.log("index " + this.#currentIndex);
+      return result;
+    }
+
+    getCurrentIndex() {
+      return this.#currentIndex;
+    }
+
 }
