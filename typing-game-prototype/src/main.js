@@ -1,17 +1,29 @@
 import "./style.css";
 import {Checker} from "./checker";
+import {SentenceManager} from "./sentenceManager.js";
 
 
+let htmlWordsToDisplay = "";
 
-const wordsDisplay1 = "cheese is a kind of meat ";
-const wordsDisplay2 = "wisdom sets boundaries to knowledge ";
-const wordDisplay3 = "cheese bounds knowledge to wisdom ";
-const wordsDisplayList = [];
+const sentenceManager = new SentenceManager();
+let wordsToDisplay = sentenceManager.getNextSentence();
 
-wordsDisplayList.push(wordsDisplay1, wordsDisplay2, wordDisplay3);
-let sentenceCount= 0;
-let wordsToDisplay =  wordsDisplayList[sentenceCount];
 let checker = new Checker(wordsToDisplay);
+
+
+const newSentence = function () {
+
+    htmlWordsToDisplay = "";
+    wordsToDisplay = sentenceManager.getNextSentence();
+    checker.resetChecker(wordsToDisplay);
+
+    for (let i = 0; i < wordsToDisplay.length; i++) {
+        htmlWordsToDisplay += `<span id='letter-${i}'>${wordsToDisplay[i]}</span>`;
+    }
+    document.getElementById("wordsDisplay").innerHTML = htmlWordsToDisplay;
+    document.getElementById("textInput").value = "";
+
+}
 
 
 export function initialize() {
@@ -21,19 +33,8 @@ export function initialize() {
         const result = checker.check(event.key);
 
         if (result === true && count === wordsToDisplay.length - 1) {
-            sentenceCount +=1;
-            wordsToDisplay=wordsDisplayList[sentenceCount];
-            checker = new Checker(wordsToDisplay);
-            console.log("htmlWords "+ htmlWordsToDisplay);
-            htmlWordsToDisplay = "";
-            for (let i = 0; i < wordsToDisplay.length; i++) {
-                htmlWordsToDisplay += `<span id='letter-${i}'>${wordsToDisplay[i]}</span>`;
-                console.log("htmlWords in loop "+ htmlWordsToDisplay);
-            }
-            document.getElementById("wordsDisplay").innerHTML = htmlWordsToDisplay;
-        }
-
-        if (result === true) {
+            newSentence();
+        } else if (result === true) {
             document.getElementById("letter-" + count).classList.add("success");
         } else if (result === false) {
             document.getElementById("letter-" + count).classList.add("failure");
@@ -42,8 +43,6 @@ export function initialize() {
         }
 
     });
-
-    let htmlWordsToDisplay = "";
 
     for (let i = 0; i < wordsToDisplay.length; i++) {
         htmlWordsToDisplay += `<span id='letter-${i}'>${wordsToDisplay[i]}</span>`;
