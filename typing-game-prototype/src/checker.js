@@ -28,9 +28,7 @@ export const BACKSPACE_KEY = "Backspace";
       return this.#currentIndex;
     }
     resetChecker(sentenceToCheck){
-      console.log("sentence " + this.#sentenceToCheck);
       this.#sentenceToCheck = sentenceToCheck;
-      console.log("sentence " + this.#sentenceToCheck);
       this.#currentIndex=0;
     }
 
