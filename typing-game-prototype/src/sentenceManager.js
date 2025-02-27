@@ -1,25 +1,73 @@
+import words from './randomWords.json'
 
-
-
-
-export class SentenceManager{
+export class SentenceManager {
     #wordsDisplayList = [];
     #sentenceCount = 0;
+    #wordsPerSentence = 10;
+    #sentencesPerRun = 6;
 
-    constructor(){
-
-        this.#wordsDisplayList.push("cheese is a kind of meat ", "wisdom sets boundaries to knowledge ", "cheese bounds knowledge to wisdom ");
+    constructor() {
+        this.#generateSentencesOfRandomWordsFromFile();
     }
 
-    getNextSentence(){
-        if(this.#sentenceCount === this.#wordsDisplayList.length){
-            this.#sentenceCount=0;
-                    }
-       let sentence = this.#wordsDisplayList[this.#sentenceCount];
-       this.#sentenceCount+=1;
-       console.log("in new class " + sentence);
-       return sentence;
+    getNextSentence() {
+        if (this.#sentenceCount === this.#wordsDisplayList.length) {
+            this.#sentenceCount = 0;
+        }
+        const sentence = this.#wordsDisplayList[this.#sentenceCount];
+        this.#sentenceCount += 1;
+        return sentence;
+    }
+
+    #generateSentencesOfRandomWordsFromFile() {
+        const keys = Object.keys(words);
+        const randomWordCollection = keys[this.#generateRandomNumber(keys.length)];
+        let wordString = words[randomWordCollection];
+        wordString = wordString.replace("-", " ");
+        const splitBySpace = wordString.split(" ");
+        const sanitisedWords = this.#getWordsAsSanitisedWordArray(splitBySpace);
+        this.#generateSentencesWithRandomWords(sanitisedWords);
+
+
+    }
+
+    #getWordsAsSanitisedWordArray(splitBySpace) {
+        const sanitisedWords = [];
+        for (let i = 0; i < splitBySpace.length; i++) {
+            let sanitisedWord = splitBySpace[i].replace(/[.,\/#!$%^&*1234567890;\[\]:{}=\-_`~()]/g, "");
+            if (/^[a-zA-Z ]+$/.test(sanitisedWord)) {
+                sanitisedWords.push(sanitisedWord.toLowerCase() + " "); //add space
+            }
+        }
+        return sanitisedWords;
+    }
+
+    #generateSentencesWithRandomWords(wordArray) {
+        for (let i = 0; i < this.#sentencesPerRun; i++) {
+            let sentence = "";
+            let wordToCheck = undefined;
+            let wordToAdd = undefined;
+
+            for (let i = 0; i < this.#wordsPerSentence; i++) {
+                wordToAdd = this.#generateRandomNumber(wordArray.length);
+                
+                while(wordToCheck === wordArray){ // ensure that contiguous words are different
+                    wordToAdd = this.#generateRandomNumber(wordArray.length);
+                }
+                wordToCheck= wordToAdd;
+                sentence += wordArray[wordToAdd];
+            }
+            this.#wordsDisplayList.push(sentence);
+        }
     }
 
 
+    /**
+     * get a positive integer from 0 to max
+     * @param max
+     * @returns {number}
+     */
+    #generateRandomNumber(max) {
+        return Math.floor(Math.random() * max);
+    }
 }

@@ -19,8 +19,6 @@ export const BACKSPACE_KEY = "Backspace";
       }
       const result = char === this.#sentenceToCheck.at(this.#currentIndex);
       this.#currentIndex++;
-
-      console.log("index " + this.#currentIndex);
       return result;
     }
 

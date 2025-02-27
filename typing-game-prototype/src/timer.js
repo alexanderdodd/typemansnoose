@@ -1,7 +1,9 @@
 export class Timer {
   #timer = undefined;
   #currentCount = undefined;
-  startTimer(countdown = 30, callbackFn) {
+
+
+  startTimer(countdown,  callbackFn) {
     if (this.#timer) {
       clearInterval(this.#timer);
     }
