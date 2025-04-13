@@ -13,6 +13,14 @@ export class Timer {
     callbackFn(this.#currentCount);
   }
 
+  cancelTimer() {
+    if(this.#timer) {
+      clearTimeout(this.#timer);
+    }
+    this.#timer = undefined;
+    this.#currentCount = undefined;
+  }
+
   #setTimeoutFn(callbackFn) {
     return setTimeout(() => {
       this.#currentCount--;
