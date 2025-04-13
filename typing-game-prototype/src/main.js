@@ -22,6 +22,7 @@ class Presenter {
         this.countdown = 30;
         this.chars = 0;
         document.getElementById("textInput").value = "";
+        document.getElementById("textInput").focus();
         document.getElementById("countdown").innerHTML = this.countdown;
         document.getElementById("accuracy").innerHTML = "";
         let htmlWordsToDisplay = "";
