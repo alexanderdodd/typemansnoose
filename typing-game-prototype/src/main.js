@@ -16,7 +16,13 @@ class Presenter {
     countdown = null;
     chars = null;
 
-    #setup() {
+    constructor() {
+        this.#initializeState();
+        this.#initializeElementInteractions();
+    }
+
+    #initializeState() {
+        this.timer.cancelTimer();
         this.wordsToDisplay = this.sentenceManager.getNextSentence();
         this.checker = new Checker(this.wordsToDisplay);
         this.countdown = 30;
@@ -32,11 +38,9 @@ class Presenter {
         document.getElementById("wordsDisplay").innerHTML = htmlWordsToDisplay;
     }
 
-    initialize() {
-        this.#setup()
+    #initializeElementInteractions() {
         document.getElementById("resetButton").addEventListener("click", () => {
-            this.timer.cancelTimer();
-            this.#setup();
+            this.#initializeState();
         });
         document.getElementById("textInput").addEventListener("keydown", (event) => {
             this.chars++;
@@ -104,7 +108,6 @@ class Presenter {
 }
 
 
-const presenter = new Presenter();
-presenter.initialize();
+new Presenter();
 
 
