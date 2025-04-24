@@ -1,3 +1,3 @@
 export default function Reset() {
-    return <>Reset</>
+    return <><button>Reset</button></>
 }

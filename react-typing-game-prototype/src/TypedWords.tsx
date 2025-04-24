@@ -1,3 +1,3 @@
 export default function TypedWords() {
-    return <>TypedWords</>
+    return <><input></input></>
 }

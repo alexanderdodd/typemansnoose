@@ -1,3 +1,3 @@
 export default function Count() {
-    return <>Count</>
+    return <>30</>
 }
