@@ -34,7 +34,7 @@ export class SentenceManager {
     #getWordsAsSanitisedWordArray(splitBySpace) {
         const sanitisedWords = [];
         for (let i = 0; i < splitBySpace.length; i++) {
-            let sanitisedWord = splitBySpace[i].replace(/[.,\/#!$%^&*1234567890;\[\]:{}=\-_`~()]/g, "");
+            let sanitisedWord = splitBySpace[i].replace(/[.,\/#!@?$£%^&*1234567890;\[\]:{}=\-_`~()]/g, "");
             if (/^[a-zA-Z ]+$/.test(sanitisedWord)) {
                 sanitisedWords.push(sanitisedWord.toLowerCase() + " "); //add space
             }
@@ -49,13 +49,13 @@ export class SentenceManager {
             let wordToAdd = undefined;
 
             for (let i = 0; i < this.#wordsPerSentence; i++) {
-                wordToAdd = this.#generateRandomNumber(wordArray.length);
+                wordToAdd = wordArray[this.#generateRandomNumber(wordArray.length)];
                 
-                while(wordToCheck === wordArray){ // ensure that contiguous words are different
-                    wordToAdd = this.#generateRandomNumber(wordArray.length);
+                while(wordToCheck === wordToAdd){ // ensure that contiguous words are different
+                    wordToAdd = wordArray[this.#generateRandomNumber(wordArray.length)];
                 }
                 wordToCheck= wordToAdd;
-                sentence += wordArray[wordToAdd];
+                sentence += wordToAdd;
             }
             this.#wordsDisplayList.push(sentence);
         }
