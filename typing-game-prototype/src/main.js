@@ -15,8 +15,16 @@ class Presenter {
     checker = null
     countdown = null;
     chars = null;
+    #currentLetterCount = 0;
+    #correctLetterCount = 0;
 
-    #setup() {
+    constructor() {
+        this.#initializeState();
+        this.#initializeElementInteractions();
+    }
+
+    #initializeState() {
+        this.timer.cancelTimer();
         this.wordsToDisplay = this.sentenceManager.getNextSentence();
         this.checker = new Checker(this.wordsToDisplay);
         this.countdown = 30;
@@ -32,11 +40,9 @@ class Presenter {
         document.getElementById("wordsDisplay").innerHTML = htmlWordsToDisplay;
     }
 
-    initialize() {
-        this.#setup()
+    #initializeElementInteractions() {
         document.getElementById("resetButton").addEventListener("click", () => {
-            this.timer.cancelTimer();
-            this.#setup();
+            this.#initializeState();
         });
         document.getElementById("textInput").addEventListener("keydown", (event) => {
             this.chars++;
@@ -54,16 +60,22 @@ class Presenter {
             }
             const count = this.checker.getCurrentIndex();
             const result = this.checker.check(event.key);
-    
-    
+
+
             if (result === true && count === this.wordsToDisplay.length - 1) {
                 this.#newSentence();    
             } else if (result === true) {
                 document.getElementById("letter-" + count).classList.add("success");
+                this.#currentLetterCount++;
+                console.log("current letter count "+this.#currentLetterCount);
+                this.#correctLetterCount++;
+                console.log("correct letter count "+this.#correctLetterCount);
             } else if (result === false) {
                 document.getElementById("letter-" + count).classList.add("failure");
+                this.#currentLetterCount++;
+                console.log("current letter count "+this.#currentLetterCount);
             } else if (result === null) {
-                // do nothing
+                this.#currentLetterCount--; //what if backspace is the last key event? accuracy will be off
             }
     
         });
@@ -83,28 +95,13 @@ class Presenter {
     }
 
     #determineKeyStrokeAccuracy() {
-        let success = 0;
-        let failure = 0;
-    
-        for (let i = 0; i < this.wordsToDisplay.length; i++) {
-            let letter = document.getElementById("letter-" + i);
-            let style = window.getComputedStyle(letter);
-            if (style.color === 'rgb(34, 139, 34)') { //refactor this shit
-                success++
-            }
-            if (style.color === 'rgb(255, 0, 0)') {
-                failure++;
-            }
-        }
-        const total = success + failure;
-        const probability = (success / (total) * 100).toFixed(2);
-        document.getElementById("accuracy").innerHTML="letter total:" + total + " correct:" + success + " failure:" + failure + " percentage:" + probability;
+        const probability = (this.#correctLetterCount / (this.#currentLetterCount) * 100).toFixed(2);
+        document.getElementById("accuracy").innerHTML="letter total: " + this.#currentLetterCount + " correct: " + this.#correctLetterCount + " percentage:" + probability;
     }
 
 }
 
 
-const presenter = new Presenter();
-presenter.initialize();
+new Presenter();
 
 
