@@ -1,5 +1,5 @@
-export default function WordsToType() {
+export default function WordsToType({wordsToType}: {wordsToType: string}) {
     return <>
-        too have too is will we shall him
+        {wordsToType}
        </>
 }

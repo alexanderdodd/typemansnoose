@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./Container.css";
 import Count from "./Count";
 import Reset from "./Reset";
@@ -7,15 +8,20 @@ import WordsPerMinute from "./WordsPerMinute";
 import WordsToType from "./WordsToType";
 
 function Container() {
+  const [wordsToTypeState, setWordsToTypeState] = useState<string>(
+    "too have too is will we shall him"
+  );
+  const [totalTypedWords, setTotalTypedWords] = useState<string[]>([]);
+  const [correctlyTypedWords, setCorrectlyTypedWords] = useState<number>(0);
   return (
     <>
       <div>
         <div>
-          <WordsToType />
+          <WordsToType wordsToType={wordsToTypeState}/>
         </div>
         <div>
-          <TypedWords />
-          <Reset />
+          <TypedWords nextWord={onNextWord}/>
+          <Reset onReset={resetState} />
         </div>
         <div>
           <Count />
@@ -29,6 +35,19 @@ function Container() {
       </div>
     </>
   );
+
+  function resetState() {
+    setWordsToTypeState("new sentence");
+  }
+
+
+  function onNextWord(word: string) {
+    console.log(word);
+    setTotalTypedWords([...totalTypedWords, word])
+    //++ 
+    // is word === 'current' word
+    // if so, +1 for the correctWords
+  }
 }
 
 export default Container;

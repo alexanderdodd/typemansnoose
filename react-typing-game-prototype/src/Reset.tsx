@@ -1,3 +1,3 @@
-export default function Reset() {
-    return <><button>Reset</button></>
+export default function Reset({onReset}: {onReset: () => void}) {
+    return <><button onClick={onReset}>Reset</button></>
 }
