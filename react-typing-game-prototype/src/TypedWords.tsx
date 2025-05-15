@@ -1,5 +1,43 @@
 import { useState } from "react";
 
+export default function TypedWords({
+  nextWord,
+}: {
+  nextWord: (nextWord: string) => void;
+}) {
+  const [value, setValue] = useState<string>("");
+  return (
+    <>
+      <input
+        value={value}
+        onChange={(event) => {
+          setValue(event.target.value);
+        }}
+        onKeyDown={(key) =>
+          parseWord(key.code as unknown as keyof typeof keyToCodeLookup)
+        }
+      ></input>
+    </>
+  );
+
+  function parseWord(code: keyof typeof keyToCodeLookup) {
+    if (!streamOpen) {
+      streamOpen = true;
+      word = "";
+    }
+
+    if (DelimiterCodes.includes(code)) {
+      streamOpen = false;
+      setValue("");
+      nextWord(word);
+    }
+
+    if (KeyCodesToParse.includes(code)) {
+      word += keyToCodeLookup[code];
+    }
+  }
+}
+
 const KeyCodesToParse = [
   "KeyA",
   "KeyB",
@@ -59,45 +97,8 @@ const keyToCodeLookup = {
   Space: " ",
 };
 
+
 const DelimiterCodes = ["Space"];
 
 let streamOpen = false;
 let word = "";
-
-export default function TypedWords({
-  nextWord,
-}: {
-  nextWord: (nextWord: string) => void;
-}) {
-  const [value, setValue] = useState<string>("");
-  return (
-    <>
-      <input
-        value={value}
-        onChange={(event) => {
-          setValue(event.target.value);
-        }}
-        onKeyDown={(key) =>
-          parseWord(key.code as unknown as keyof typeof keyToCodeLookup)
-        }
-      ></input>
-    </>
-  );
-
-  function parseWord(code: keyof typeof keyToCodeLookup) {
-    if (!streamOpen) {
-      streamOpen = true;
-      word = "";
-    }
-
-    if (DelimiterCodes.includes(code)) {
-      streamOpen = false;
-      setValue("");
-      nextWord(word);
-    }
-
-    if (KeyCodesToParse.includes(code)) {
-      word += keyToCodeLookup[code];
-    }
-  }
-}
