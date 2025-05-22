@@ -27,8 +27,10 @@ export default function TypedWords({
     }
 
     if (DelimiterCodes.includes(code)) {
+      setTimeout(() => {
+        setValue("");
+      });
       streamOpen = false;
-      setValue("");
       nextWord(word);
     }
 
@@ -96,7 +98,6 @@ const keyToCodeLookup = {
   KeyZ: "z",
   Space: " ",
 };
-
 
 const DelimiterCodes = ["Space"];
 

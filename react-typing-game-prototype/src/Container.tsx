@@ -13,6 +13,7 @@ function Container() {
   );
   const [totalTypedWords, setTotalTypedWords] = useState<string[]>([]);
   const [correctlyTypedWords, setCorrectlyTypedWords] = useState<number>(0);
+  const [currentCount, setCurrentCount] = useState<number>(5);
   return (
     <>
       <div>
@@ -24,7 +25,7 @@ function Container() {
           <Reset onReset={resetState} />
         </div>
         <div>
-          <Count />
+          <Count onCountdownFinish={onCountdownFinish} currentCount={currentCount} setCurrentCount={setCurrentCount}/>
         </div>
         <div>
           <WordsPerMinute />
@@ -38,6 +39,8 @@ function Container() {
 
   function resetState() {
     setWordsToTypeState("new sentence");
+    setTotalTypedWords([]);
+    setCurrentCount(30);
   }
 
 
@@ -47,6 +50,10 @@ function Container() {
     //++ 
     // is word === 'current' word
     // if so, +1 for the correctWords
+  }
+
+  function onCountdownFinish() {
+    console.log('countdown finished');
   }
 }
 
