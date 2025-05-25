@@ -7,12 +7,7 @@ import TypedWords from "./TypedWords";
 import WordsPerMinute from "./WordsPerMinute";
 import WordsToType from "./WordsToType";
 
-
-
-
-
-
-
+let startCountdown = false;
 
 function Container() {
   const [wordsToTypeState, setWordsToTypeState] = useState<string>("");
@@ -22,15 +17,23 @@ function Container() {
   return (
     <>
       <div>
-      <div>
-          <WordsToType wordsToType={wordsToTypeState} setSentence={setSentence}/>
+        <div>
+          <WordsToType
+            wordsToType={wordsToTypeState}
+            setSentence={setSentence}
+          />
         </div>
         <div>
-          <TypedWords nextWord={onNextWord}/>
+          <TypedWords nextWord={onNextWord} />
           <Reset onReset={resetState} />
         </div>
         <div>
-          <Count onCountdownFinish={onCountdownFinish} currentCount={currentCount} setCurrentCount={setCurrentCount}/>
+          <Count
+            onCountdownFinish={onCountdownFinish}
+            currentCount={currentCount}
+            setCurrentCount={setCurrentCount}
+            startCountdown={startCountdown}
+          />
         </div>
         <div>
           <WordsPerMinute />
@@ -46,21 +49,23 @@ function Container() {
     setWordsToTypeState("new sentence");
     setTotalTypedWords([]);
     setCurrentCount(30);
+    startCountdown = true;
   }
 
- function setSentence  (sentence: string){
-setWordsToTypeState(sentence);
-}
+  function setSentence(sentence: string) {
+    setWordsToTypeState(sentence);
+  }
+
   function onNextWord(word: string) {
     console.log(word);
-    setTotalTypedWords([...totalTypedWords, word])
-    //++ 
+    setTotalTypedWords([...totalTypedWords, word]);
+    //++
     // is word === 'current' word
     // if so, +1 for the correctWords
   }
 
   function onCountdownFinish() {
-    console.log('countdown finished');
+    console.log("countdown finished");
   }
 }
 
