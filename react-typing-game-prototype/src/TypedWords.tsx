@@ -2,8 +2,10 @@ import { useState } from "react";
 
 export default function TypedWords({
   nextWord,
+  nextChar
 }: {
   nextWord: (nextWord: string) => void;
+  nextChar: (nextChar: string) => void;
 }) {
   const [value, setValue] = useState<string>("");
   return (
@@ -36,6 +38,7 @@ export default function TypedWords({
 
     if (KeyCodesToParse.includes(code)) {
       word += keyToCodeLookup[code];
+      nextChar(keyToCodeLookup[code]);
     }
   }
 }
