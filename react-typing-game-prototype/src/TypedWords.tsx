@@ -2,16 +2,19 @@ import { useState } from "react";
 
 export default function TypedWords({
   nextWord,
-  nextChar
+  nextChar,
+  disabled,
 }: {
   nextWord: (nextWord: string) => void;
   nextChar: (nextChar: string) => void;
+  disabled: boolean;
 }) {
   const [value, setValue] = useState<string>("");
   return (
     <>
       <input
-        value={value}
+        disabled={disabled}
+        value={disabled ? "" : value}
         onChange={(event) => {
           setValue(event.target.value);
         }}

@@ -7,13 +7,16 @@ import TypedWords from "./TypedWords";
 import WordsPerMinute from "./WordsPerMinute";
 import WordsToType from "./WordsToType";
 
+const countdownLength = 15;
 
 function Container() {
   const [wordsToTypeState, setWordsToTypeState] = useState<string>("");
   const [totalTypedWords, setTotalTypedWords] = useState<string[]>([]);
   // const [correctlyTypedWords, setCorrectlyTypedWords] = useState<number>(0);
-  const [currentCount, setCurrentCount] = useState<number>(5);
+  const [currentCount, setCurrentCount] = useState<number>(countdownLength);
   const [startCountdown, setStartCountdown] = useState<boolean>(false);
+  const [showResults, setShowResults] = useState<boolean>(false);
+
   return (
     <>
       <div>
@@ -24,7 +27,11 @@ function Container() {
           />
         </div>
         <div>
-          <TypedWords nextWord={onNextWord} nextChar={onNextChar} />
+          <TypedWords
+            nextWord={onNextWord}
+            nextChar={onNextChar}
+            disabled={showResults}
+          />
           <Reset onReset={resetState} />
         </div>
         <div>
@@ -36,12 +43,21 @@ function Container() {
             setStartCountdown={setStartCountdown}
           />
         </div>
-        <div>
-          <WordsPerMinute />
-        </div>
-        <div>
-          <Results />
-        </div>
+        {showResults ? (
+          <>
+            <div>
+              <WordsPerMinute
+                wordCount={totalTypedWords.length}
+                countdownLength={countdownLength}
+              />
+            </div>
+            <div>
+              <Results />
+            </div>
+          </>
+        ) : (
+          <> </>
+        )}
       </div>
     </>
   );
@@ -49,7 +65,8 @@ function Container() {
   function resetState() {
     setWordsToTypeState("new sentence");
     setTotalTypedWords([]);
-    setCurrentCount(30);
+    setCurrentCount(countdownLength);
+    setShowResults(false);
     // startCountdown = false;
   }
 
@@ -72,7 +89,8 @@ function Container() {
   }
 
   function onCountdownFinish() {
-    console.log("countdown finished");
+    console.log("countdown finished", showResults);
+    setShowResults(true);
   }
 }
 
