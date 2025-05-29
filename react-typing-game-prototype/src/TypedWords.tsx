@@ -1,22 +1,23 @@
-import { useState } from "react";
-
 export default function TypedWords({
   nextWord,
   nextChar,
   disabled,
+  inputWords,
+  setInputWords,
 }: {
   nextWord: (nextWord: string) => void;
   nextChar: (nextChar: string) => void;
   disabled: boolean;
+  inputWords: string;
+  setInputWords: (words: string) => void;
 }) {
-  const [value, setValue] = useState<string>("");
   return (
     <>
       <input
         disabled={disabled}
-        value={disabled ? "" : value}
+        value={inputWords}
         onChange={(event) => {
-          setValue(event.target.value);
+          setInputWords(event.target.value);
         }}
         onKeyDown={(key) =>
           parseWord(key.code as unknown as keyof typeof keyToCodeLookup)
@@ -33,7 +34,7 @@ export default function TypedWords({
 
     if (DelimiterCodes.includes(code)) {
       setTimeout(() => {
-        setValue("");
+        setInputWords("");
       });
       streamOpen = false;
       nextWord(word);

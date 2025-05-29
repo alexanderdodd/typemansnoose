@@ -10,9 +10,9 @@ import WordsToType from "./WordsToType";
 const countdownLength = 15;
 
 function Container() {
-  const [wordsToTypeState, setWordsToTypeState] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>("");
+  const [wordsToType, setWordsToType] = useState<string[]>([]);
   const [totalTypedWords, setTotalTypedWords] = useState<string[]>([]);
-  // const [correctlyTypedWords, setCorrectlyTypedWords] = useState<number>(0);
   const [currentCount, setCurrentCount] = useState<number>(countdownLength);
   const [startCountdown, setStartCountdown] = useState<boolean>(false);
   const [showResults, setShowResults] = useState<boolean>(false);
@@ -22,7 +22,7 @@ function Container() {
       <div>
         <div>
           <WordsToType
-            wordsToType={wordsToTypeState}
+            wordsToType={wordsToType.join(" ")}
             setSentence={setSentence}
           />
         </div>
@@ -31,6 +31,8 @@ function Container() {
             nextWord={onNextWord}
             nextChar={onNextChar}
             disabled={showResults}
+            inputWords={inputValue}
+            setInputWords={setInputValue}
           />
           <Reset onReset={resetState} />
         </div>
@@ -63,33 +65,30 @@ function Container() {
   );
 
   function resetState() {
-    setWordsToTypeState("new sentence");
+    setWordsToType(["a", "new", "sentence", "to", "type"]);
     setTotalTypedWords([]);
     setCurrentCount(countdownLength);
+    setStartCountdown(false);
     setShowResults(false);
-    // startCountdown = false;
+    setInputValue("");
   }
 
   function setSentence(sentence: string) {
-    console.log("set sentence", sentence);
-    setWordsToTypeState(sentence);
+    setWordsToType(sentence.split(" "));
   }
 
   function onNextWord(word: string) {
-    console.log(word);
     setTotalTypedWords([...totalTypedWords, word]);
     //++
     // is word === 'current' word
     // if so, +1 for the correctWords
   }
 
-  function onNextChar(char: string) {
-    console.log(char);
+  function onNextChar() {
     setStartCountdown(true);
   }
 
   function onCountdownFinish() {
-    console.log("countdown finished", showResults);
     setShowResults(true);
   }
 }

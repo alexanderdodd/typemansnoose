@@ -3,7 +3,6 @@ export default function Count({
   currentCount,
   setCurrentCount,
   startCountdown,
-  setStartCountdown
 }: {
   onCountdownFinish: () => void;
   currentCount: number;
@@ -11,14 +10,15 @@ export default function Count({
   startCountdown: boolean;
   setStartCountdown: (start: boolean) => void;
 }) {
-  console.log('startCountdown', startCountdown);
   if (startCountdown && !timer.isStarted()) {
     timer.startTimer(currentCount, (count: number) => {
       setCurrentCount(count);
-      setStartCountdown(false);
     });
-  
-  } if (currentCount === 0) {
+  }
+  if (!startCountdown && timer.isStarted()) {
+    timer.cancelTimer();
+  }
+  if (currentCount === 0) {
     timer.cancelTimer();
     onCountdownFinish();
   }
