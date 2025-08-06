@@ -84,12 +84,14 @@ function Container() {
   }
 
   function onNextWord(word: string) {
-    setTotalTypedWords([...totalTypedWords, word]);
-    setCurrentWordIndex(currentWordIndex + 1);
+    if (word === wordsToType[currentWordIndex]) {
+      setTotalTypedWords([...totalTypedWords, word]);
+      setCurrentWordIndex(currentWordIndex + 1);
 
-    if (currentWordIndex === wordsToType.length - 2) {
-      setCreateNewSentence(true);
-      setCurrentWordIndex(0);
+      if (currentWordIndex === wordsToType.length - 2) {
+        setCreateNewSentence(true);
+        setCurrentWordIndex(0);
+      }
     }
   }
 
