@@ -1,18 +1,35 @@
 import words from "./randomWords.json";
-
+import "./WordsToType.css";
 let wordsDisplayList = [];
 let wordsPerSentence = 10;
-let sendSentence = true;
 
-export default function WordsToType({ wordsToType, setSentence }) {
+export default function WordsToType({
+  wordsToType,
+  setSentence,
+  currentWordIndex,
+  createNewSentence,
+  setCreateNewSentence,
+}) {
   {
-    if (sendSentence) {
+    if (createNewSentence) {
       setSentence(createSentence());
     }
-    sendSentence = false;
+    setCreateNewSentence(false);
   }
 
-  return <>{wordsToType}</>;
+  return (
+    <>
+      {wordsToType.split(" ").map((word, idx) => (
+        <span
+          key={idx}
+          className={idx === currentWordIndex ? "currentWord" : ""}
+        >
+          {word}
+          {idx < wordsToType.split(" ").length - 1 ? " " : ""}
+        </span>
+      ))}
+    </>
+  );
 }
 
 function createSentence() {

@@ -1,0 +1,22 @@
+.words-to-type {
+  font-size: 2.2rem;
+  color: #222;
+  background: #f0f4ff;
+  padding: 1.2rem 2rem;
+  border-radius: 10px;
+  margin-bottom: 3.5rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(100, 108, 255, 0.07);
+  font-family: 'Fira Mono', 'Consolas', monospace;
+  display: inline-block;
+}
+
+.currentWord {
+  background: #ffe066;
+  color: #1a1a1a;
+  border-radius: 6px;
+  padding: 0.2em 0.5em;
+  margin: 0 0.1em;
+  transition: background 0.2s;
+}

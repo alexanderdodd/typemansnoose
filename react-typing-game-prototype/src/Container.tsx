@@ -12,9 +12,11 @@ const countdownLength = 15;
 function Container() {
   const [inputValue, setInputValue] = useState<string>("");
   const [wordsToType, setWordsToType] = useState<string[]>([]);
+  const [currentWordIndex, setCurrentWordIndex] = useState<number>(0);
   const [totalTypedWords, setTotalTypedWords] = useState<string[]>([]);
   const [currentCount, setCurrentCount] = useState<number>(countdownLength);
   const [startCountdown, setStartCountdown] = useState<boolean>(false);
+  const [createNewSentence, setCreateNewSentence] = useState<boolean>(true);
   const [showResults, setShowResults] = useState<boolean>(false);
 
   return (
@@ -24,6 +26,9 @@ function Container() {
           <WordsToType
             wordsToType={wordsToType.join(" ")}
             setSentence={setSentence}
+            currentWordIndex={currentWordIndex}
+            createNewSentence={createNewSentence}
+            setCreateNewSentence={setCreateNewSentence}
           />
         </div>
         <div>
@@ -65,8 +70,9 @@ function Container() {
   );
 
   function resetState() {
-    setWordsToType(["a", "new", "sentence", "to", "type"]);
+    setCreateNewSentence(true);
     setTotalTypedWords([]);
+    setCurrentWordIndex(0);
     setCurrentCount(countdownLength);
     setStartCountdown(false);
     setShowResults(false);
@@ -79,9 +85,12 @@ function Container() {
 
   function onNextWord(word: string) {
     setTotalTypedWords([...totalTypedWords, word]);
-    //++
-    // is word === 'current' word
-    // if so, +1 for the correctWords
+    setCurrentWordIndex(currentWordIndex + 1);
+
+    if (currentWordIndex === wordsToType.length - 2) {
+      setCreateNewSentence(true);
+      setCurrentWordIndex(0);
+    }
   }
 
   function onNextChar() {
