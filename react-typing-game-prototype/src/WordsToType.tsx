@@ -7,6 +7,7 @@ export default function WordsToType({
   wordsToType,
   setSentence,
   currentWordIndex,
+  incorrectCharIndexes,
   createNewSentence,
   setCreateNewSentence,
 }) {
@@ -24,7 +25,22 @@ export default function WordsToType({
           key={idx}
           className={idx === currentWordIndex ? "currentWord" : ""}
         >
-          {word}
+          {word.split("").map((char, charIdx) => (
+            <span
+              key={charIdx}
+              className={`char ${
+                incorrectCharIndexes.includes(
+                  wordsToType.split(" ").slice(0, idx).join(" ").length +
+                    (idx > 0 ? 1 : 0) + // add space for previous words
+                    charIdx
+                )
+                  ? "incorrect"
+                  : ""
+              }`}
+            >
+              {char}
+            </span>
+          ))}
           {idx < wordsToType.split(" ").length - 1 ? " " : ""}
         </span>
       ))}

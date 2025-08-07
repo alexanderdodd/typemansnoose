@@ -20,3 +20,7 @@
   margin: 0 0.1em;
   transition: background 0.2s;
 }
+
+.char.incorrect{
+    color: red;
+}

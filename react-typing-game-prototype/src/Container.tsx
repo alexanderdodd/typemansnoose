@@ -8,11 +8,13 @@ import WordsPerMinute from "./WordsPerMinute";
 import WordsToType from "./WordsToType";
 
 const countdownLength = 15;
+const incorrectCharIndexes = [];
 
 function Container() {
   const [inputValue, setInputValue] = useState<string>("");
   const [wordsToType, setWordsToType] = useState<string[]>([]);
   const [currentWordIndex, setCurrentWordIndex] = useState<number>(0);
+  const [currentCharIndex, setCurrentCharIndex] = useState<number>(0);
   const [totalTypedWords, setTotalTypedWords] = useState<string[]>([]);
   const [currentCount, setCurrentCount] = useState<number>(countdownLength);
   const [startCountdown, setStartCountdown] = useState<boolean>(false);
@@ -27,6 +29,7 @@ function Container() {
             wordsToType={wordsToType.join(" ")}
             setSentence={setSentence}
             currentWordIndex={currentWordIndex}
+            incorrectCharIndexes={incorrectCharIndexes}
             createNewSentence={createNewSentence}
             setCreateNewSentence={setCreateNewSentence}
           />
@@ -77,10 +80,14 @@ function Container() {
     setStartCountdown(false);
     setShowResults(false);
     setInputValue("");
+    setCurrentCharIndex(0);
+    incorrectCharIndexes.length = 0;
   }
 
   function setSentence(sentence: string) {
     setWordsToType(sentence.split(" "));
+    setCurrentCharIndex(0);
+    incorrectCharIndexes.length = 0;
   }
 
   function onNextWord(word: string) {
@@ -95,8 +102,12 @@ function Container() {
     }
   }
 
-  function onNextChar() {
+  function onNextChar(char: string) {
+    if (char !== wordsToType[currentWordIndex][currentCharIndex]) {
+      incorrectCharIndexes.push(currentCharIndex);
+    }
     setStartCountdown(true);
+    setCurrentCharIndex(currentCharIndex + 1);
   }
 
   function onCountdownFinish() {

@@ -32,7 +32,7 @@ export default function TypedWords({
       word = "";
     }
 
-    if (DelimiterCodes.includes(code)) {
+    if (isEndOfWord(code)) {
       setTimeout(() => {
         setInputWords("");
       });
@@ -45,6 +45,10 @@ export default function TypedWords({
       nextChar(keyToCodeLookup[code]);
     }
   }
+}
+
+function isEndOfWord(code: keyof typeof keyToCodeLookup) {
+  return DelimiterCodes.includes(code);
 }
 
 const KeyCodesToParse = [
