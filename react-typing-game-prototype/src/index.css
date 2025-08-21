@@ -1,3 +1,4 @@
+
 /* Styling for the words-to-type prompt and current word */
 .words-to-type {
   font-size: 2.2rem;
@@ -41,7 +42,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f5f6fa;
+  background: red;
   font-family: 'Segoe UI', system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
